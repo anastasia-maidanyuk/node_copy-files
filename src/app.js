@@ -1,16 +1,14 @@
+/* eslint-disable no-console */
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
-const [, , sourcePath, destinationPath] = process.argv;
-
-if (sourcePath === destinationPath) {
-  process.exit(0);
-}
+const [sourcePath, destinationPath] = process.argv.slice(2);
 
 try {
-  fs.copyFileSync(sourcePath, destinationPath);
+  const source = fs.readFileSync(sourcePath).toString();
+
+  fs.writeFileSync(destinationPath, source);
 } catch (error) {
-  // eslint-disable-next-line no-console
-  console.error('copy error', error.message);
+  console.error(`Error: ${error.message}`);
 }
